@@ -5,25 +5,23 @@ import { validateFields } from '../middlewares/validation.middleware.js';
 
 const router = express.Router();
 
-// Crear usuario
 router.post('/register', validateFields(['email']), async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await UserService.createUser(email);
-    res.json(user);
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+    const result = await UserService.createAccount(email);
+    res.json(result);
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
   }
 });
 
-// Login
 router.post('/login', async (req, res) => {
   const { email } = req.body;
   try {
     const result = await UserService.login(email);
     res.json(result);
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+  } catch (error: any) {
+    res.status(400).json({ done: false, message: error.message });
   }
 });
 

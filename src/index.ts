@@ -3,8 +3,6 @@ import cors from 'cors';
 
 import { PORT } from './config/env.js';
 import { corsOptions } from './config/cors.js';
-// import taskRoutes from './interfaces/http/routes/task.routes.js';
-// import userRoutes from './interfaces/http/routes/user.routes.js';
 import apiRoutes from './interfaces/http/routes/routes.js';
 
 const app = express();
@@ -12,8 +10,5 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api', apiRoutes);
-
-// app.use('/tasks', taskRoutes);
-// app.use('/users', userRoutes);
 
 app.listen(PORT, () => console.log(`Servidor escuchando en http://localhost:${PORT}`));
