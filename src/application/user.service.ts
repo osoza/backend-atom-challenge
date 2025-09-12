@@ -1,5 +1,5 @@
-// import { UserRepository } from '../domain/user/user.repository.js';
-import { UserRepositoryMock as UserRepository } from '../domain/user/user.repository.mock.js';
+import { UserRepository } from '../domain/user/user.repository.js';
+// import { UserRepositoryMock as UserRepository } from '../domain/user/user.repository.mock.js';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/env.js';
 
@@ -23,18 +23,18 @@ export class UserService {
          const user = await repository.findByEmail(email);
 
          if (!user) {
-            return { done: false, message: 'Usuario no encontrado' };
+            return { done: false, message: 'Cuenta no encontrada' };
          }
 
          const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
-         return { done: true, message: 'Login realizado exisitosamente', user, token };
+         return { done: true, message: 'Inicio de sesión realizado exisitosamente', user, token };
       } catch (error: any) {
          return { done: false, message: error.message || 'Error al iniciar sesión' };
       }
    }
 
-   static async findUser(email: string) {
-      return await repository.findByEmail(email);
-   }
+   // static async findUser(email: string) {
+   //    return await repository.findByEmail(email);
+   // }
 }

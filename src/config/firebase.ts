@@ -1,50 +1,55 @@
-// import admin from 'firebase-admin';
-// import { join, dirname } from 'path';
-// import { fileURLToPath } from 'url';
+import admin from 'firebase-admin';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+// import serviceAccount from './firebase-service-account.json';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // const serviceAccount = join(__dirname, './firebase-service-account.json');
+const serviceAccount = require('./firebase-service-account.json');
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
+admin.initializeApp({
+  // credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+});
 
-// export const db = admin.firestore();
+export const db = admin.firestore();
 
-type DocMock = {
-  id: string;
-  data: () => any;
-  exists?: boolean;
-};
+// type DocMock = {
+//   id: string;
+//   data: () => any;
+//   exists?: boolean;
+// };
 
-type CollectionMock = {
-  get: () => Promise<{ docs: DocMock[] }>;
-  add: (data: any) => Promise<{ id: string }>;
-  doc: (id: string) => {
-    get: () => Promise<{ exists: boolean; id: string; data: () => any }>;
-    update: (data: any) => Promise<void>;
-    delete: () => Promise<void>;
-  };
-  where: (field: string, op: string, value: any) => { get: () => Promise<{ empty: boolean; docs: DocMock[] }> };
-};
+// type CollectionMock = {
+//   get: () => Promise<{ docs: DocMock[] }>;
+//   add: (data: any) => Promise<{ id: string }>;
+//   doc: (id: string) => {
+//     get: () => Promise<{ exists: boolean; id: string; data: () => any }>;
+//     update: (data: any) => Promise<void>;
+//     delete: () => Promise<void>;
+//   };
+//   where: (field: string, op: string, value: any) => { get: () => Promise<{ empty: boolean; docs: DocMock[] }> };
+// };
 
-export const db: { collection: (name: string) => CollectionMock } = {
-  collection: (name: string) => ({
-    get: async () => ({
-      docs: [
-        { id: '1', data: () => ({ email: 'oscar@example.com' }) },
-      ],
-    }),
-    add: async (data: any) => ({ id: '1' }),
-    doc: (id: string) => ({
-      get: async () => ({ exists: false, id, data: () => ({}) }),
-      update: async (data: any) => {},
-      delete: async () => {},
-    }),
-    where: (field: string, op: string, value: any) => ({
-      get: async () => ({ empty: true, docs: [] }),
-    }),
-  }),
-};
+// export const db: { collection: (name: string) => CollectionMock } = {
+//   collection: (name: string) => ({
+//     get: async () => ({
+//       docs: [
+//         { id: '1', data: () => ({ email: 'oscar@example.com' }) },
+//       ],
+//     }),
+//     add: async (data: any) => ({ id: '1' }),
+//     doc: (id: string) => ({
+//       get: async () => ({ exists: false, id, data: () => ({}) }),
+//       update: async (data: any) => {},
+//       delete: async () => {},
+//     }),
+//     where: (field: string, op: string, value: any) => ({
+//       get: async () => ({ empty: true, docs: [] }),
+//     }),
+//   }),
+// };
