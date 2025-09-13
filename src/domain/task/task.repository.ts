@@ -1,15 +1,17 @@
 import { db } from '../../config/firebase.js';
 import { TaskFactory } from './task.factory.js';
 import { Task } from './task.entity.js';
-import { Timestamp } from 'firebase-admin/firestore';
 
 export class TaskRepository {
     private static instance: TaskRepository;
     private collection = db.collection('tasks');
 
     private constructor() { }
+
     public static getInstance() {
-        if (!TaskRepository.instance) TaskRepository.instance = new TaskRepository();
+        if (!TaskRepository.instance) {
+            TaskRepository.instance = new TaskRepository();
+        }
         return TaskRepository.instance;
     }
 
@@ -85,7 +87,11 @@ export class TaskRepository {
     async update(id: string, data: Partial<Task>): Promise<Task | null> {
         const docRef = this.collection.doc(id);
         const doc = await docRef.get();
-        if (!doc.exists) return null;
+
+        if (!doc.exists) {
+            return null;
+        }
+        
         await docRef.update(data);
         const updated = await docRef.get();
         return { id: updated.id, ...updated.data() } as Task;

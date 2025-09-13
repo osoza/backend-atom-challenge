@@ -19,6 +19,7 @@ export class TaskService {
     }
 
     static async deleteTask(id: string): Promise<boolean> {
-        return await repository.delete(id);
+        const deleted =await repository.delete(id);
+        return deleted;
     }
 }

@@ -6,17 +6,25 @@ import { validateFields } from '../middlewares/validation.middleware.js';
 const router = express.Router();
 router.use(authenticate);
 
-// router.get('/', async (req, res) => res.json(await TaskService.getAll()));
 router.get('/', async (req, res) => {
-  const { title, description, completed } = req.query;
-  const completedBool = completed !== undefined ? completed === 'true' : undefined;
-  const filters: any = {};
-  if (title) filters.title = title;
-  if (description) filters.description = description;
-  if (completedBool !== undefined) filters.completed = completedBool;
+    const { title, description, completed } = req.query;
+    const completedBool = completed !== undefined ? completed === 'true' : undefined;
+    const filters: any = {};
 
-  const tasks = await TaskService.getAll(filters);
-  res.json(tasks);
+    if (title) {
+        filters.title = title;
+    }
+
+    if (description) {
+        filters.description = description;
+    }
+
+    if (completedBool !== undefined) {
+        filters.completed = completedBool;
+    }
+
+    const tasks = await TaskService.getAll(filters);
+    res.json(tasks);
 });
 router.post('/', validateFields(['title', 'description', 'createdAt', 'completed']), async (req, res) => res.json(await TaskService.addTask(req.body)));
 router.put('/:id', async (req, res) => res.json(await TaskService.updateTask(req.params.id, req.body)));
