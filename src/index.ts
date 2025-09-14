@@ -1,4 +1,4 @@
-import { http } from '@google-cloud/functions-framework';
+import * as functionsFramework from '@google-cloud/functions-framework';
 import express from 'express';
 import cors from 'cors';
 
@@ -14,5 +14,5 @@ app.use(express.json());
 
 app.use('/api', apiRoutes);
 
-http('api', app);
+functionsFramework.http('api', app);
 // app.listen(PORT, () => console.log(`Servidor escuchando en http://localhost:${PORT}`));
