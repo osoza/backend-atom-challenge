@@ -34,6 +34,7 @@ export class TaskService {
 
     static async deleteTask(id: string): Promise<boolean> {
         try {
+            console.log('id:', id)
             const deleted = await repository.delete(id);
             return deleted;
         } catch (error: any) {
