@@ -1,0 +1,26 @@
+steps:
+  # 1️⃣ Instalar dependencias
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+
+  # 2️⃣ Compilar TypeScript a JS
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+
+  # 3️⃣ Construir la imagen Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'gcr.io/atom-challenge-472104/atom-backend',
+      '.'
+    ]
+
+  # 4️⃣ Subir imagen al Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'gcr.io/atom-challenge-472104/atom-backend'
+    ]
+
+images:
+  - 'gcr.io/$atom-challenge-472104/atom-backend'
