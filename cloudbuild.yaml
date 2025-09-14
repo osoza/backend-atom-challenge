@@ -24,3 +24,6 @@ steps:
 
 images:
   - 'gcr.io/$atom-challenge-472104/atom-backend'
+
+options:
+  logging: CLOUD_LOGGING_ONLY  # guarda logs solo en Cloud Logging
