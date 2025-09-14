@@ -4,10 +4,10 @@ import cors from 'cors';
 import { PORT } from './config/env.js';
 import { corsOptions } from './config/cors.js';
 import apiRoutes from './interfaces/http/routes/routes.js';
-import admin from 'firebase-admin';
+// import admin from 'firebase-admin';
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
-credential: admin.credential.cert(serviceAccount)
+// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+// credential: admin.credential.cert(serviceAccount)
 
 const app = express();
 app.use(cors(corsOptions));
