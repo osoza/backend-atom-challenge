@@ -1,14 +1,28 @@
-import admin from 'firebase-admin';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+import admin from "firebase-admin";
 
-const serviceAccount = require('./firebase-service-account.json');
+let dbInstance: FirebaseFirestore.Firestore | null = null;
 
-// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+export function initFirebase(): FirebaseFirestore.Firestore {
+   if (dbInstance) return dbInstance;
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
-    // credential: admin.credential.cert(serviceAccount)
-});
+   const apps = admin.apps ?? [];
+   let app: admin.app.App;
 
-export const db = admin.firestore();
+   if (apps.length > 0) {
+      app = apps[0]!;
+   } else {
+      app = admin.initializeApp({
+         credential: admin.credential.applicationDefault(),
+         projectId: "atom-challenge-1567c",
+      });
+   }
+
+   dbInstance = app.firestore();
+   return dbInstance;
+}
+
+export function getDb(): FirebaseFirestore.Firestore {
+   if (!dbInstance)
+      throw new Error("Firebase no ha sido inicializado.");
+   return dbInstance;
+}
