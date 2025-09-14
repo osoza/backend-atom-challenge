@@ -14,5 +14,7 @@ app.use(express.json());
 
 app.use('/api', apiRoutes);
 
-functionsFramework.http('api', app);
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
 // app.listen(PORT, () => console.log(`Servidor escuchando en http://localhost:${PORT}`));
